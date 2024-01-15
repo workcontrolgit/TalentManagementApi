@@ -1,12 +1,12 @@
 ﻿using MediatR;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using TalentManagementApi.Application.Interfaces;
 using TalentManagementApi.Application.Interfaces.Repositories;
 using TalentManagementApi.Application.Parameters;
 using TalentManagementApi.Application.Wrappers;
 using TalentManagementApi.Domain.Entities;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace TalentManagementApi.Application.Features.Employees.Queries.GetEmployees
 {
@@ -19,6 +19,7 @@ namespace TalentManagementApi.Application.Features.Employees.Queries.GetEmployee
     {
         //examples:
         public string LastName { get; set; }
+
         public string FirstName { get; set; }
         public string Email { get; set; }
         public string EmployeeNumber { get; set; }
@@ -52,25 +53,25 @@ namespace TalentManagementApi.Application.Features.Employees.Queries.GetEmployee
         /// <returns>A PagedResponse containing the requested data.</returns>
         public async Task<PagedResponse<IEnumerable<Entity>>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
         {
-            var validatedRequest = request;
+            var objRequest = request;
             //filtered fields security
-            if (!string.IsNullOrEmpty(validatedRequest.Fields))
+            if (!string.IsNullOrEmpty(objRequest.Fields))
             {
                 //limit to fields in view model
-                validatedRequest.Fields = _modelHelper.ValidateModelFields<GetEmployeesViewModel>(validatedRequest.Fields);
+                objRequest.Fields = _modelHelper.ValidateModelFields<GetEmployeesViewModel>(objRequest.Fields);
             }
-            if (string.IsNullOrEmpty(validatedRequest.Fields))
+            else
             {
                 //default fields from view model
-                validatedRequest.Fields = _modelHelper.GetModelFields<GetEmployeesViewModel>();
+                objRequest.Fields = _modelHelper.GetModelFields<GetEmployeesViewModel>();
             }
             // query based on filter
-            var qryResult = await _employeeRepository.GetPagedEmployeeResponseAsync(validatedRequest);
+            var qryResult = await _employeeRepository.GetEmployeeResponseAsync(objRequest);
             var data = qryResult.data;
             RecordsCount recordCount = qryResult.recordsCount;
 
             // response wrapper
-            return new PagedResponse<IEnumerable<Entity>>(data, validatedRequest.PageNumber, validatedRequest.PageSize, recordCount);
+            return new PagedResponse<IEnumerable<Entity>>(data, objRequest.PageNumber, objRequest.PageSize, recordCount);
         }
     }
 }

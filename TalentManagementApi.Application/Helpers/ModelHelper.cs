@@ -1,6 +1,7 @@
-﻿using TalentManagementApi.Application.Interfaces;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using TalentManagementApi.Application.Interfaces;
 
 namespace TalentManagementApi.Application.Helpers
 {
@@ -19,13 +20,25 @@ namespace TalentManagementApi.Application.Helpers
             var bindingFlags = System.Reflection.BindingFlags.Instance |
                                 System.Reflection.BindingFlags.NonPublic |
                                 System.Reflection.BindingFlags.Public;
-            var listFields = typeof(T).GetProperties(bindingFlags).Select(f => f.Name).ToList();
-            string[] arrayFields = fields.Split(',');
-            foreach (var field in arrayFields)
+            var allowedFields = typeof(T).GetProperties(bindingFlags).Select(f => f.Name).ToList();
+
+            // Convert the fields to array
+            string[] inputFields = fields.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Convert the array to a list
+            List<string> candidateFields = new List<string>(inputFields);
+
+            // Create matchedFields list containing items from candidateFields that are also in allowedFields
+            List<string> matchedFields = allowedFields.Intersect(candidateFields).ToList();
+
+            foreach (var field in candidateFields)
             {
-                if (listFields.Contains(field.Trim(), StringComparer.OrdinalIgnoreCase))
-                    retString += field + ",";
-            };
+                if (!(allowedFields.Contains(field.Trim(), StringComparer.OrdinalIgnoreCase)))
+                    matchedFields.Remove(field);
+            }
+
+            retString = string.Join(", ", matchedFields);
+
             return retString;
         }
 
@@ -41,12 +54,9 @@ namespace TalentManagementApi.Application.Helpers
             var bindingFlags = System.Reflection.BindingFlags.Instance |
                                 System.Reflection.BindingFlags.NonPublic |
                                 System.Reflection.BindingFlags.Public;
-            var listFields = typeof(T).GetProperties(bindingFlags).Select(f => f.Name).ToList();
+            var allowedFields = typeof(T).GetProperties(bindingFlags).Select(f => f.Name).ToList();
 
-            foreach (string field in listFields)
-            {
-                retString += field + ",";
-            }
+            retString = string.Join(", ", allowedFields);
 
             return retString;
         }
