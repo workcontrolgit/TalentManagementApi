@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TalentManagementApi.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:TalentManagementApi.WebApi.Controllers.v1.EmployeesController.Get(TalentManagementApi.Application.Features.Employees.Queries.GetEmployees.GetEmployeesQuery)">
+            <summary>
+            Gets a list of employees based on the specified filter.
+            </summary>
+            <param name="filter">The filter used to get the list of employees.</param>
+            <returns>A list of employees.</returns>
+        </member>
+        <member name="M:TalentManagementApi.WebApi.Controllers.v1.EmployeesController.Paged(TalentManagementApi.Application.Features.Employees.Queries.GetEmployees.PagedEmployeesQuery)">
+            <summary>
+            Retrieves a paged list of employees.
+            Support Ngx-DataTables https://medium.com/scrum-and-coke/angular-11-pagination-of-zillion-rows-45d8533538c0
+            </summary>
+            <param name="query">The query parameters for the paged list.</param>
+            <returns>A paged list of employees.</returns>
+        </member>
+        <member name="M:TalentManagementApi.WebApi.Controllers.v1.PositionsController.Get(TalentManagementApi.Application.Features.Positions.Queries.GetPositions.GetPositionsQuery)">
+            <summary>
+            Gets a list of positions based on the provided filter.
+            </summary>
+            <param name="filter">The filter used to query the positions.</param>
+            <returns>A list of positions.</returns>
+        </member>
+        <member name="M:TalentManagementApi.WebApi.Controllers.v1.PositionsController.Get(System.Guid)">
+            <summary>
+            Gets a position by its Id.
+            </summary>
+            <param name="id">The Id of the position.</param>
+            <returns>The position with the specified Id.</returns>
+        </member>
+        <member name="M:TalentManagementApi.WebApi.Controllers.v1.PositionsController.Post(TalentManagementApi.Application.Features.Positions.Commands.CreatePosition.CreatePositionCommand)">
+            <summary>
+            Creates a new position.
+            </summary>
+            <param name="command">The command containing the data for the new position.</param>
+            <returns>A 201 Created response containing the newly created position.</returns>
+        </member>
+        <member name="M:TalentManagementApi.WebApi.Controllers.v1.PositionsController.AddMock(TalentManagementApi.Application.Features.Positions.Commands.CreatePosition.InsertMockPositionCommand)">
+            <summary>
+            Sends an InsertMockPositionCommand to the mediator.
+            </summary>
+            <param name="command">The command to be sent.</param>
+            <returns>The result of the command.</returns>
+        </member>
+        <member name="M:TalentManagementApi.WebApi.Controllers.v1.PositionsController.Paged(TalentManagementApi.Application.Features.Positions.Queries.GetPositions.PagedPositionsQuery)">
+            <summary>
+            Retrieves a paged list of positions.
+            </summary>
+            <param name="query">The query parameters for the paged list.</param>
+            <returns>A paged list of positions.</returns>
+        </member>
+        <member name="M:TalentManagementApi.WebApi.Controllers.v1.PositionsController.Put(System.Guid,TalentManagementApi.Application.Features.Positions.Commands.UpdatePosition.UpdatePositionCommand)">
+            <summary>
+            Updates a position with the given id using the provided command.
+            </summary>
+            <param name="id">The id of the position to update.</param>
+            <param name="command">The command containing the updated information.</param>
+            <returns>The updated position.</returns>
+        </member>
+        <member name="M:TalentManagementApi.WebApi.Controllers.v1.PositionsController.Delete(System.Guid)">
+            <summary>
+            Deletes a position by its Id.
+            </summary>
+            <param name="id">The Id of the position to delete.</param>
+            <returns>The result of the deletion.</returns>
+        </member>
+    </members>
+</doc>
