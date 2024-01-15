@@ -1,16 +1,16 @@
 ﻿using MediatR;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using TalentManagementApi.Application.Interfaces;
 using TalentManagementApi.Application.Interfaces.Repositories;
 using TalentManagementApi.Application.Parameters;
 using TalentManagementApi.Application.Wrappers;
 using TalentManagementApi.Domain.Entities;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace TalentManagementApi.Application.Features.Employees.Queries.GetEmployees
 {
-    public partial class PagedEmployeesQuery : IRequest<PagedDataTableResponse<IEnumerable<Entity>>>
+    public partial class PagedEmployeesQuery : QueryParameter, IRequest<PagedDataTableResponse<IEnumerable<Entity>>>
     {
         //strong type input parameters
         public int Draw { get; set; } //page number
@@ -49,53 +49,45 @@ namespace TalentManagementApi.Application.Features.Employees.Queries.GetEmployee
         /// <returns>A PagedDataTableResponse.</returns>
         public async Task<PagedDataTableResponse<IEnumerable<Entity>>> Handle(PagedEmployeesQuery request, CancellationToken cancellationToken)
         {
-            var validatedRequest = new GetEmployeesQuery();
+            var objRequest = request;
 
             // Draw map to PageNumber
-            validatedRequest.PageNumber = (request.Start / request.Length) + 1;
+            objRequest.PageNumber = (request.Start / request.Length) + 1;
             // Length map to PageSize
-            validatedRequest.PageSize = request.Length;
+            objRequest.PageSize = request.Length;
 
             // Map order > OrderBy
             var colOrder = request.Order[0];
             switch (colOrder.Column)
             {
                 case 0:
-                    validatedRequest.OrderBy = colOrder.Dir == "asc" ? "LastName" : "LastName DESC";
+                    objRequest.OrderBy = colOrder.Dir == "asc" ? "LastName" : "LastName DESC";
                     break;
 
                 case 1:
-                    validatedRequest.OrderBy = colOrder.Dir == "asc" ? "FirstName" : "FirstName DESC";
+                    objRequest.OrderBy = colOrder.Dir == "asc" ? "FirstName" : "FirstName DESC";
                     break;
 
                 case 2:
-                    validatedRequest.OrderBy = colOrder.Dir == "asc" ? "Email" : "Email DESC";
+                    objRequest.OrderBy = colOrder.Dir == "asc" ? "Email" : "Email DESC";
                     break;
+
                 case 3:
-                    validatedRequest.OrderBy = colOrder.Dir == "asc" ? "EmployeeNumber" : "EmployeeNumber DESC";
+                    objRequest.OrderBy = colOrder.Dir == "asc" ? "EmployeeNumber" : "EmployeeNumber DESC";
                     break;
+
                 case 4:
-                    validatedRequest.OrderBy = colOrder.Dir == "asc" ? "Position.PositionTitle" : "Position.PositionTitle DESC";
+                    objRequest.OrderBy = colOrder.Dir == "asc" ? "Position.PositionTitle" : "Position.PositionTitle DESC";
                     break;
             }
 
-            // Map Search > searchable columns
-            if (!string.IsNullOrEmpty(request.Search.Value))
-            {
-                // hint:  limit searchable fields to index columms to optmize performance
-                validatedRequest.LastName = request.Search.Value;
-                validatedRequest.FirstName = request.Search.Value;
-                validatedRequest.Email = request.Search.Value;
-                validatedRequest.EmployeeNumber = request.Search.Value;
-                validatedRequest.PositionTitle = request.Search.Value;
-            }
-            if (string.IsNullOrEmpty(validatedRequest.Fields))
+            if (string.IsNullOrEmpty(objRequest.Fields))
             {
                 //default fields from view model
-                validatedRequest.Fields = _modelHelper.GetModelFields<GetEmployeesViewModel>();
+                objRequest.Fields = _modelHelper.GetModelFields<GetEmployeesViewModel>();
             }
             // query based on filter
-            var qryResult = await _repository.GetPagedEmployeeResponseAsync(validatedRequest);
+            var qryResult = await _repository.GetPagedEmployeeResponseAsync(objRequest);
             var data = qryResult.data;
             RecordsCount recordCount = qryResult.recordsCount;
 

@@ -41,7 +41,61 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
             return true;
         }
 
-        public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedPositionReponseAsync(GetPositionsQuery requestParameters)
+        public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> PagedPositionReponseAsync(PagedPositionsQuery requestParameters)
+        {
+            var pageNumber = requestParameters.PageNumber;
+            var pageSize = requestParameters.PageSize;
+            var orderBy = requestParameters.OrderBy;
+            var fields = requestParameters.Fields;
+
+            int recordsTotal, recordsFiltered;
+
+            // Setup IQueryable
+            var result = _repository
+                .AsNoTracking()
+                .AsExpandable();
+
+            // Count records total
+            recordsTotal = await result.CountAsync();
+
+            // filter data
+            FilterByColumn(ref result, requestParameters.Search.Value);
+
+            // Count records after filter
+            recordsFiltered = await result.CountAsync();
+
+            //set Record counts
+            var recordsCount = new RecordsCount
+            {
+                RecordsFiltered = recordsFiltered,
+                RecordsTotal = recordsTotal
+            };
+
+            // set order by
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                result = result.OrderBy(orderBy);
+            }
+
+            // select columns
+            if (!string.IsNullOrWhiteSpace(fields))
+            {
+                result = result.Select<Position>("new(" + fields + ")");
+            }
+            // paging
+            result = result
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
+
+            // retrieve data to list
+            var resultData = await result.ToListAsync();
+            // shape data
+            var shapeData = _dataShaper.ShapeData(resultData, fields);
+
+            return (shapeData, recordsCount);
+        }
+
+        public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPositionReponseAsync(GetPositionsQuery requestParameters)
         {
             var positionNumber = requestParameters.PositionNumber;
             var positionTitle = requestParameters.PositionTitle;
@@ -117,6 +171,24 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
 
             if (!string.IsNullOrEmpty(department))
                 predicate = predicate.Or(p => p.Department.Name.Contains(department.Trim()));
+
+            qry = qry.Where(predicate);
+        }
+
+        private void FilterByColumn(ref IQueryable<Position> qry, string keyword)
+        {
+            if (!qry.Any())
+                return;
+
+            if (string.IsNullOrEmpty(keyword))
+                return;
+
+            var predicate = PredicateBuilder.New<Position>();
+
+            if (!string.IsNullOrEmpty(keyword))
+                predicate = predicate.Or(p => p.PositionNumber.Contains(keyword.Trim()));
+            predicate = predicate.Or(p => p.PositionTitle.Contains(keyword.Trim()));
+            predicate = predicate.Or(p => p.Department.Name.Contains(keyword.Trim()));
 
             qry = qry.Where(predicate);
         }
