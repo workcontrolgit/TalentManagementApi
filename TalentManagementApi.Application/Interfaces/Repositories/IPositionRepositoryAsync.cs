@@ -1,8 +1,8 @@
-﻿using TalentManagementApi.Application.Features.Positions.Queries.GetPositions;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using TalentManagementApi.Application.Features.Positions.Queries.GetPositions;
 using TalentManagementApi.Application.Parameters;
 using TalentManagementApi.Domain.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace TalentManagementApi.Application.Interfaces.Repositories
 {
@@ -22,7 +22,7 @@ namespace TalentManagementApi.Application.Interfaces.Repositories
     /// <param name="recordsCount">Number of records.</param>
     /// <returns>
     /// Task containing the paged response.
-    /// </returns>    
+    /// </returns>
     public interface IPositionRepositoryAsync : IGenericRepositoryAsync<Position>
     {
         Task<bool> IsUniquePositionNumberAsync(string positionNumber);
@@ -30,5 +30,7 @@ namespace TalentManagementApi.Application.Interfaces.Repositories
         Task<bool> SeedDataAsync(int rowCount);
 
         Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedPositionReponseAsync(GetPositionsQuery requestParameters);
+
+        Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedPositionReponseAsync(PagedPositionsQuery requestParameters);
     }
 }

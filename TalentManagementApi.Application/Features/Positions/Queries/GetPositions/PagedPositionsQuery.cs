@@ -11,8 +11,12 @@ using TalentManagementApi.Domain.Entities;
 
 namespace TalentManagementApi.Application.Features.Positions.Queries.GetPositions
 {
-    public partial class PagedPositionsQuery : IRequest<PagedDataTableResponse<IEnumerable<Entity>>>
+    public partial class PagedPositionsQuery : QueryParameter, IRequest<PagedDataTableResponse<IEnumerable<Entity>>>
     {
+        public string PositionNumber { get; set; }
+        public string PositionTitle { get; set; }
+        public string Department { get; set; }
+
         //strong type input parameters
         public int Draw { get; set; } //page number
 
@@ -36,27 +40,28 @@ namespace TalentManagementApi.Application.Features.Positions.Queries.GetPosition
 
         public async Task<PagedDataTableResponse<IEnumerable<Entity>>> Handle(PagedPositionsQuery request, CancellationToken cancellationToken)
         {
-            var validatedRequest = new GetPositionsQuery();
+            //var objRequest = new GetPositionsQuery();
+            var objRequest = request;
 
             // Draw map to PageNumber
-            validatedRequest.PageNumber = (request.Start / request.Length) + 1;
+            objRequest.PageNumber = (request.Start / request.Length) + 1;
             // Length map to PageSize
-            validatedRequest.PageSize = request.Length;
+            objRequest.PageSize = request.Length;
 
             // Map order > OrderBy
             var colOrder = request.Order[0];
             switch (colOrder.Column)
             {
                 case 0:
-                    validatedRequest.OrderBy = colOrder.Dir == "asc" ? "PositionNumber" : "PositionNumber DESC";
+                    objRequest.OrderBy = colOrder.Dir == "asc" ? "PositionNumber" : "PositionNumber DESC";
                     break;
 
                 case 1:
-                    validatedRequest.OrderBy = colOrder.Dir == "asc" ? "PositionTitle" : "PositionTitle DESC";
+                    objRequest.OrderBy = colOrder.Dir == "asc" ? "PositionTitle" : "PositionTitle DESC";
                     break;
 
                 case 2:
-                    validatedRequest.OrderBy = colOrder.Dir == "asc" ? "Department.Name" : "Department.Name DESC";
+                    objRequest.OrderBy = colOrder.Dir == "asc" ? "Department.Name" : "Department.Name DESC";
                     break;
             }
 
@@ -66,17 +71,17 @@ namespace TalentManagementApi.Application.Features.Positions.Queries.GetPosition
             if (!string.IsNullOrEmpty(keywordSearch))
             {
                 //limit to fields in view model
-                validatedRequest.PositionNumber = keywordSearch;
-                validatedRequest.PositionTitle = keywordSearch;
-                validatedRequest.Department = keywordSearch;
+                objRequest.PositionNumber = keywordSearch;
+                objRequest.PositionTitle = keywordSearch;
+                objRequest.Department = keywordSearch;
             }
-            if (string.IsNullOrEmpty(validatedRequest.Fields))
+            if (string.IsNullOrEmpty(objRequest.Fields))
             {
                 //default fields from view model
-                validatedRequest.Fields = _modelHelper.GetModelFields<GetPositionsViewModel>();
+                objRequest.Fields = _modelHelper.GetModelFields<GetPositionsViewModel>();
             }
             // query based on filter
-            var qryResult = await _repository.GetPagedPositionReponseAsync(validatedRequest);
+            var qryResult = await _repository.GetPagedPositionReponseAsync(objRequest);
             var data = qryResult.data;
             RecordsCount recordCount = qryResult.recordsCount;
 

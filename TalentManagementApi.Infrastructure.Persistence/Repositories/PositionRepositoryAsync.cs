@@ -41,6 +41,64 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
             return true;
         }
 
+        public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedPositionReponseAsync(PagedPositionsQuery requestParameters)
+        {
+            var positionNumber = requestParameters.PositionNumber;
+            var positionTitle = requestParameters.PositionTitle;
+            var department = requestParameters.Department;
+
+            var pageNumber = requestParameters.PageNumber;
+            var pageSize = requestParameters.PageSize;
+            var orderBy = requestParameters.OrderBy;
+            var fields = requestParameters.Fields;
+
+            int recordsTotal, recordsFiltered;
+
+            // Setup IQueryable
+            var result = _repository
+                .AsNoTracking()
+                .AsExpandable();
+
+            // Count records total
+            recordsTotal = await result.CountAsync();
+
+            // filter data
+            FilterByColumn(ref result, positionNumber, positionTitle, department);
+
+            // Count records after filter
+            recordsFiltered = await result.CountAsync();
+
+            //set Record counts
+            var recordsCount = new RecordsCount
+            {
+                RecordsFiltered = recordsFiltered,
+                RecordsTotal = recordsTotal
+            };
+
+            // set order by
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                result = result.OrderBy(orderBy);
+            }
+
+            // select columns
+            if (!string.IsNullOrWhiteSpace(fields))
+            {
+                result = result.Select<Position>("new(" + fields + ")");
+            }
+            // paging
+            result = result
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
+
+            // retrieve data to list
+            var resultData = await result.ToListAsync();
+            // shape data
+            var shapeData = _dataShaper.ShapeData(resultData, fields);
+
+            return (shapeData, recordsCount);
+        }
+
         public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedPositionReponseAsync(GetPositionsQuery requestParameters)
         {
             var positionNumber = requestParameters.PositionNumber;
