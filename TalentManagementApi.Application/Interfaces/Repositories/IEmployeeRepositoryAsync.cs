@@ -1,8 +1,8 @@
-﻿using TalentManagementApi.Application.Features.Employees.Queries.GetEmployees;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using TalentManagementApi.Application.Features.Employees.Queries.GetEmployees;
 using TalentManagementApi.Application.Parameters;
 using TalentManagementApi.Domain.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace TalentManagementApi.Application.Interfaces.Repositories
 {
@@ -15,6 +15,8 @@ namespace TalentManagementApi.Application.Interfaces.Repositories
     /// </returns>
     public interface IEmployeeRepositoryAsync : IGenericRepositoryAsync<Employee>
     {
-        Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedEmployeeResponseAsync(GetEmployeesQuery requestParameters);
+        Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetEmployeeResponseAsync(GetEmployeesQuery requestParameters);
+
+        Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedEmployeeResponseAsync(PagedEmployeesQuery requestParameters);
     }
 }

@@ -66,7 +66,7 @@ namespace TalentManagementApi.Application.Features.Employees.Queries.GetEmployee
                 objRequest.Fields = _modelHelper.GetModelFields<GetEmployeesViewModel>();
             }
             // query based on filter
-            var qryResult = await _employeeRepository.GetPagedEmployeeResponseAsync(objRequest);
+            var qryResult = await _employeeRepository.GetEmployeeResponseAsync(objRequest);
             var data = qryResult.data;
             RecordsCount recordCount = qryResult.recordsCount;
 

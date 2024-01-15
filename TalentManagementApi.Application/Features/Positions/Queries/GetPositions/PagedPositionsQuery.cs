@@ -13,9 +13,6 @@ namespace TalentManagementApi.Application.Features.Positions.Queries.GetPosition
 {
     public partial class PagedPositionsQuery : QueryParameter, IRequest<PagedDataTableResponse<IEnumerable<Entity>>>
     {
-        public string PositionNumber { get; set; }
-        public string PositionTitle { get; set; }
-        public string Department { get; set; }
 
         //strong type input parameters
         public int Draw { get; set; } //page number
@@ -40,7 +37,6 @@ namespace TalentManagementApi.Application.Features.Positions.Queries.GetPosition
 
         public async Task<PagedDataTableResponse<IEnumerable<Entity>>> Handle(PagedPositionsQuery request, CancellationToken cancellationToken)
         {
-            //var objRequest = new GetPositionsQuery();
             var objRequest = request;
 
             // Draw map to PageNumber
@@ -65,23 +61,13 @@ namespace TalentManagementApi.Application.Features.Positions.Queries.GetPosition
                     break;
             }
 
-            // Map Search > searchable columns
-            var keywordSearch = request.Search.Value;
-
-            if (!string.IsNullOrEmpty(keywordSearch))
-            {
-                //limit to fields in view model
-                objRequest.PositionNumber = keywordSearch;
-                objRequest.PositionTitle = keywordSearch;
-                objRequest.Department = keywordSearch;
-            }
             if (string.IsNullOrEmpty(objRequest.Fields))
             {
                 //default fields from view model
                 objRequest.Fields = _modelHelper.GetModelFields<GetPositionsViewModel>();
             }
             // query based on filter
-            var qryResult = await _repository.GetPagedPositionReponseAsync(objRequest);
+            var qryResult = await _repository.PagedPositionReponseAsync(objRequest);
             var data = qryResult.data;
             RecordsCount recordCount = qryResult.recordsCount;
 
