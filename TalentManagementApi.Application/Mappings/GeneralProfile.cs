@@ -3,6 +3,7 @@ using TalentManagementApi.Application.Features.Departments.Queries.GetDepartment
 using TalentManagementApi.Application.Features.Employees.Queries.GetEmployees;
 using TalentManagementApi.Application.Features.Positions.Commands.CreatePosition;
 using TalentManagementApi.Application.Features.Positions.Queries.GetPositions;
+using TalentManagementApi.Application.Features.SalaryRanges.Queries.GetSalaryRanges;
 using TalentManagementApi.Domain.Entities;
 
 namespace TalentManagementApi.Application.Mappings
@@ -14,6 +15,7 @@ namespace TalentManagementApi.Application.Mappings
             CreateMap<Position, GetPositionsViewModel>().ReverseMap();
             CreateMap<Employee, GetEmployeesViewModel>().ReverseMap();
             CreateMap<Department, GetDepartmentsViewModel>().ReverseMap();
+            CreateMap<SalaryRange, GetSalaryRangesViewModel>().ReverseMap();
             CreateMap<CreatePositionCommand, Position>();
         }
     }
