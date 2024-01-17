@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,7 +13,9 @@ namespace TalentManagementApi.Application.Interfaces
 
         Task<IEnumerable<T>> GetPagedReponseAsync(int pageNumber, int pageSize);
 
-        Task<IEnumerable<T>> GetPagedAdvancedReponseAsync(int pageNumber, int pageSize, string orderBy, string fields);
+        Task<IEnumerable<T>> GetPagedAdvancedReponseAsync(int pageNumber, int pageSize, string orderBy, string fields, ExpressionStarter<T> predicate);
+
+        Task<IEnumerable<T>> GetAllShapeAsync(string orderBy, string fields);
 
         Task<T> AddAsync(T entity);
 

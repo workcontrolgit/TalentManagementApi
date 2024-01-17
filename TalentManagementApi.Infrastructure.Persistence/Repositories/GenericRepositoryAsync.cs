@@ -1,12 +1,13 @@
 ﻿using EFCore.BulkExtensions;
+using LinqKit;
 using Microsoft.EntityFrameworkCore;
-using TalentManagementApi.Application.Interfaces;
-using TalentManagementApi.Infrastructure.Persistence.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using TalentManagementApi.Application.Interfaces;
+using TalentManagementApi.Infrastructure.Persistence.Contexts;
 
 namespace TalentManagementApi.Infrastructure.Persistence.Repository
 {
@@ -34,12 +35,23 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetPagedAdvancedReponseAsync(int pageNumber, int pageSize, string orderBy, string fields)
+        public async Task<IEnumerable<T>> GetPagedAdvancedReponseAsync(int pageNumber, int pageSize, string orderBy, string fields, ExpressionStarter<T> predicate)
         {
             return await _dbContext
                 .Set<T>()
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
+                .Select<T>("new(" + fields + ")")
+                .OrderBy(orderBy)
+                .AsNoTracking()
+                .Where(predicate)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllShapeAsync(string orderBy, string fields)
+        {
+            return await _dbContext
+                .Set<T>()
                 .Select<T>("new(" + fields + ")")
                 .OrderBy(orderBy)
                 .AsNoTracking()
@@ -72,6 +84,8 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repository
                  .ToListAsync();
         }
 
+
+
         public async Task BulkInsertAsync(IEnumerable<T> entities)
         {
             // Bulk Insert Extension https://entityframework-extensions.net/bulk-insert
@@ -82,8 +96,6 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repository
             //{
             //    await this.AddAsync(row);
             //}
-
-
         }
     }
 }

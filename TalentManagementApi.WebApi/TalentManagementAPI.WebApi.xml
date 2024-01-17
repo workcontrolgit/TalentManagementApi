@@ -4,6 +4,13 @@
         <name>TalentManagementApi.WebApi</name>
     </assembly>
     <members>
+        <member name="M:TalentManagementApi.WebApi.Controllers.v1.DepartmentsController.Get(TalentManagementApi.Application.Features.Departments.Queries.GetDepartments.GetDepartmentsQuery)">
+            <summary>
+            Gets a list of employees based on the specified filter.
+            </summary>
+            <param name="filter">The filter used to get the list of employees.</param>
+            <returns>A list of employees.</returns>
+        </member>
         <member name="M:TalentManagementApi.WebApi.Controllers.v1.EmployeesController.Get(TalentManagementApi.Application.Features.Employees.Queries.GetEmployees.GetEmployeesQuery)">
             <summary>
             Gets a list of employees based on the specified filter.
