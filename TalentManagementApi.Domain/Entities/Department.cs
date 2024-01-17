@@ -1,5 +1,5 @@
-﻿using TalentManagementApi.Domain.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TalentManagementApi.Domain.Common;
 
 namespace TalentManagementApi.Domain.Entities
 {
@@ -16,6 +16,6 @@ namespace TalentManagementApi.Domain.Entities
             Positions = new HashSet<Position>();
         }
 
-        // Additional properties (e.g., Description, ManagerId, etc.) can be added here
+        // Additional properties (e.g., Name, ManagerId, etc.) can be added here
     }
 }

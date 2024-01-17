@@ -60,7 +60,7 @@ internal static class ApplicationDbContextHelpers
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.CreatedBy).HasMaxLength(100);
-            entity.Property(e => e.Description).HasMaxLength(250);
+            entity.Property(e => e.Name).HasMaxLength(250);
             entity.Property(e => e.LastModifiedBy).HasMaxLength(100);
             entity.Property(e => e.MaxSalary).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.MinSalary).HasColumnType("decimal(18, 2)");

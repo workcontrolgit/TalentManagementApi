@@ -14,7 +14,7 @@ namespace TalentManagementApi.Application.Features.Departments.Queries.GetDepart
     /// BaseRequestParameter - contains paging parameters
     /// To add filter/search parameters, add search properties to the body of this class
     /// </summary>
-    public class GetDepartmentsQuery : ShapeParameter, IRequest<IEnumerable<GetDepartmentsViewModel>>
+    public class GetDepartmentsQuery : ListParameter, IRequest<IEnumerable<GetDepartmentsViewModel>>
     {
     }
 
@@ -47,38 +47,31 @@ namespace TalentManagementApi.Application.Features.Departments.Queries.GetDepart
         /// <returns>A PagedResponse containing the requested data.</returns>
         public async Task<IEnumerable<GetDepartmentsViewModel>> Handle(GetDepartmentsQuery request, CancellationToken cancellationToken)
         {
-            var fields = request.Fields;
-            var orderBy = request.OrderBy;
+            string fields = _modelHelper.GetModelFields<GetDepartmentsViewModel>();
+            string defaultOrderByColumn = "Name";
 
-            //filtered fields security
-            if (!string.IsNullOrEmpty(request.Fields))
+            string orderBy = string.Empty;
+
+            // if the request orderby is not null
+            if (!string.IsNullOrEmpty(request.OrderBy))
             {
-                //limit to fields in view model
-                fields = _modelHelper.ValidateModelFields<GetDepartmentsViewModel>(request.Fields);
+                // check to make sure order by field is valid and in the view model
+                orderBy = _modelHelper.ValidateModelFields<GetDepartmentsViewModel>(request.OrderBy);
             }
-            else
+
+            // if the order by is invalid
+            if (string.IsNullOrEmpty(orderBy))
             {
                 //default fields from view model
-                fields = _modelHelper.GetModelFields<GetDepartmentsViewModel>();
+                orderBy = defaultOrderByColumn;
             }
 
-            if (!string.IsNullOrEmpty(orderBy))
-            {
-                //limit to fields in view model
-                orderBy = _modelHelper.ValidateModelFields<GetDepartmentsViewModel>(orderBy);
-            }
-            else
-            {
-                //default fields from view model
-                orderBy = "Name";
-            }
-
-            // var data = await _repository.GetAllAsync();
             var data = await _repository.GetAllShapeAsync(orderBy, fields);
 
-            var dtos = _mapper.Map<IEnumerable<GetDepartmentsViewModel>>(data);
+            // automap to ViewModel
+            var viewModel = _mapper.Map<IEnumerable<GetDepartmentsViewModel>>(data);
 
-            return dtos;
+            return viewModel;
         }
     }
 }
