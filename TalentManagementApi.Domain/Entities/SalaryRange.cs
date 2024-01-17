@@ -1,5 +1,5 @@
-﻿using TalentManagementApi.Domain.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TalentManagementApi.Domain.Common;
 
 namespace TalentManagementApi.Domain.Entities
 {
@@ -11,8 +11,8 @@ namespace TalentManagementApi.Domain.Entities
         // Maximum salary value
         public decimal MaxSalary { get; set; }
 
-        // Description or additional details
-        public string Description { get; set; }
+        // Name or additional details
+        public string Name { get; set; }
 
         // Navigation property back to Position
         public virtual ICollection<Position> Positions { get; set; }
@@ -21,7 +21,6 @@ namespace TalentManagementApi.Domain.Entities
         {
             Positions = new HashSet<Position>();
         }
-
 
         // Additional properties or methods can be added here
     }

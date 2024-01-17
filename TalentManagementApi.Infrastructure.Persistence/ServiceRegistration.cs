@@ -31,6 +31,8 @@ namespace TalentManagementApi.Infrastructure.Persistence
             services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
             services.AddTransient<IPositionRepositoryAsync, PositionRepositoryAsync>();
             services.AddTransient<IEmployeeRepositoryAsync, EmployeeRepositoryAsync>();
+            services.AddTransient<IDepartmentRepositoryAsync, DepartmentRepositoryAsync>();
+            services.AddTransient<ISalaryRangeRepositoryAsync, SalaryRangeRepositoryAsync>();
 
             #endregion Repositories
         }

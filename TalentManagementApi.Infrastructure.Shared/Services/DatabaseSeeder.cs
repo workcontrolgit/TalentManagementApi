@@ -38,7 +38,7 @@ namespace TalentManagementApi.Infrastructure.Shared.Services
             var faker = new Faker<SalaryRange>()
                 .UseSeed(seedValue) // Use any number
                 .RuleFor(r => r.Id, f => Guid.NewGuid())
-                .RuleFor(r => r.Description, f => f.Name.JobDescriptor())
+                .RuleFor(r => r.Name, f => f.Name.JobDescriptor())
                 .RuleFor(r => r.MinSalary, f => f.Random.Number(30000, 40000)) // TODO Set min range
                 .RuleFor(r => r.MaxSalary, f => f.Random.Number(80000, 100000)) // TODO Set max range
                 .RuleFor(r => r.Created, f => f.Date.Past(f.Random.Number(1, 5), DateTime.Now))

@@ -24,6 +24,8 @@ namespace TalentManagementApi.Application.Features.Employees.Queries.GetEmployee
         public string Email { get; set; }
         public string EmployeeNumber { get; set; }
         public string PositionTitle { get; set; }
+
+        public ListParameter ShapeParameter { get; set; }
     }
 
     public class GetAllEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, PagedResponse<IEnumerable<Entity>>>
