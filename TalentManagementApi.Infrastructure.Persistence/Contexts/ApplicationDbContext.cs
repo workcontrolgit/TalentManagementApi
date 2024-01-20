@@ -59,7 +59,7 @@ namespace TalentManagementApi.Infrastructure.Persistence.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLoggerFactory(_loggerFactory);
+            optionsBuilder.UseLoggerFactory(_loggerFactory).EnableSensitiveDataLogging().EnableDetailedErrors();
         }
     }
 }

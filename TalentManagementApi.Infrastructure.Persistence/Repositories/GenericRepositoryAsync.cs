@@ -25,6 +25,44 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repository
             return await _dbContext.Set<T>().FindAsync(id);
         }
 
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _dbContext
+                 .Set<T>()
+                 .ToListAsync();
+        }
+
+        public async Task<T> AddAsync(T entity)
+        {
+            await _dbContext.Set<T>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(T entity)
+        {
+            _dbContext.Set<T>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task BulkInsertAsync(IEnumerable<T> entities)
+        {
+            // Bulk Insert Extension https://entityframework-extensions.net/bulk-insert
+            await _dbContext.BulkInsertAsync(entities);
+
+            // if DB does not support bulk insert use the code below
+            //foreach (T row in entities)
+            //{
+            //    await this.AddAsync(row);
+            //}
+        }
+
         public async Task<IEnumerable<T>> GetPagedReponseAsync(int pageNumber, int pageSize)
         {
             return await _dbContext
@@ -56,46 +94,6 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repository
                 .OrderBy(orderBy)
                 .AsNoTracking()
                 .ToListAsync();
-        }
-
-        public async Task<T> AddAsync(T entity)
-        {
-            await _dbContext.Set<T>().AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task UpdateAsync(T entity)
-        {
-            _dbContext.Entry(entity).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(T entity)
-        {
-            _dbContext.Set<T>().Remove(entity);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await _dbContext
-                 .Set<T>()
-                 .ToListAsync();
-        }
-
-
-
-        public async Task BulkInsertAsync(IEnumerable<T> entities)
-        {
-            // Bulk Insert Extension https://entityframework-extensions.net/bulk-insert
-            await _dbContext.BulkInsertAsync(entities);
-
-            // if DB does not support bulk insert use the code below
-            //foreach (T row in entities)
-            //{
-            //    await this.AddAsync(row);
-            //}
         }
     }
 }
