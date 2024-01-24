@@ -28,11 +28,20 @@ namespace TalentManagementApi.Infrastructure.Persistence
 
             #region Repositories
 
-            services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
-            services.AddTransient<IPositionRepositoryAsync, PositionRepositoryAsync>();
-            services.AddTransient<IEmployeeRepositoryAsync, EmployeeRepositoryAsync>();
-            services.AddTransient<IDepartmentRepositoryAsync, DepartmentRepositoryAsync>();
-            services.AddTransient<ISalaryRangeRepositoryAsync, SalaryRangeRepositoryAsync>();
+            // * Code to manually register repositories for DI
+            //services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
+            //services.AddTransient<IPositionRepositoryAsync, PositionRepositoryAsync>();
+            //services.AddTransient<IEmployeeRepositoryAsync, EmployeeRepositoryAsync>();
+            //services.AddTransient<IDepartmentRepositoryAsync, DepartmentRepositoryAsync>();
+            //services.AddTransient<ISalaryRangeRepositoryAsync, SalaryRangeRepositoryAsync>();
+
+            // * use Scutor to register generic repository interface for DI and specifying the lifetime of dependencies
+            services.Scan(selector => selector
+                .FromCallingAssembly()
+                .AddClasses(classSelector => classSelector.AssignableTo(typeof(IGenericRepositoryAsync<>)))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime()
+                );
 
             #endregion Repositories
         }

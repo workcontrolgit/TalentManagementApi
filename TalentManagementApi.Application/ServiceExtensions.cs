@@ -17,11 +17,22 @@ namespace TalentManagementApi.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-            services.AddScoped<IDataShapeHelper<Position>, DataShapeHelper<Position>>();
-            services.AddScoped<IDataShapeHelper<Employee>, DataShapeHelper<Employee>>();
-            services.AddScoped<IDataShapeHelper<Department>, DataShapeHelper<Department>>();
-            services.AddScoped<IDataShapeHelper<SalaryRange>, DataShapeHelper<SalaryRange>>();
+
             services.AddScoped<IModelHelper, ModelHelper>();
+
+            // * Code to manually register repositories for DI
+            //services.AddScoped<IDataShapeHelper<Position>, DataShapeHelper<Position>>();
+            //services.AddScoped<IDataShapeHelper<Employee>, DataShapeHelper<Employee>>();
+            //services.AddScoped<IDataShapeHelper<Department>, DataShapeHelper<Department>>();
+            //services.AddScoped<IDataShapeHelper<SalaryRange>, DataShapeHelper<SalaryRange>>();
+
+            // * use Scutor to register generic IDataShapeHelper interface for DI and specifying the lifetime of dependencies
+            services.Scan(selector => selector
+                .FromCallingAssembly()
+                .AddClasses(classSelector => classSelector.AssignableTo(typeof(IDataShapeHelper<>)))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime());
+
         }
     }
 }
