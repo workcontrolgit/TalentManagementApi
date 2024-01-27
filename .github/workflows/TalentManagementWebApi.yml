@@ -2,7 +2,7 @@ name: Build and deploy .NET Core application to Web App TalentManagementWebApi
 on:
   push:
     branches:
-    - develop
+    - master
 env:
   AZURE_WEBAPP_NAME: TalentManagementWebApi
   AZURE_WEBAPP_PACKAGE_PATH: TalentManagementApi.WebApi\publish
