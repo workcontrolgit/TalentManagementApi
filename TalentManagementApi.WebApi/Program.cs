@@ -48,22 +48,21 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
+        // for quick database (usually for prototype during development)
+        using (var scope = app.Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            // use context
+            if (dbContext.Database.EnsureCreated())
+            {
+                DbInitializer.SeedData(dbContext);
+            }
+        }
     }
     else
     {
         app.UseExceptionHandler("/Error");
         app.UseHsts();
-    }
-
-    // for quick database (usually for prototype)
-    using (var scope = app.Services.CreateScope())
-    {
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        // use context
-        if (dbContext.Database.EnsureCreated())
-        {
-            DbInitializer.SeedData(dbContext);
-        }
     }
 
     // Add this line; you'll need `using Serilog;` up the top, too
