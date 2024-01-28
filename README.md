@@ -5,11 +5,21 @@ Visual Studio 2022: The project is developed and tested in Visual Studio 2022. E
 .NET Core 8 SDK: This is required to build and run the .NET Core Web API.
 
 # Installation and Setup
-Clone the Repository: Start by cloning this repository to your local machine.
-Open the Project: Open the cloned project in Visual Studio 2022.
-Restore Dependencies: Use the built-in NuGet Package Manager to restore any missing dependencies.
-Build the Solution: Compile the solution to ensure everything is set up correctly.
-Run the API: Start the Web API to begin serving requests.
+
+## Clone the Repository
+Start by cloning this repository to your local machine.
+
+## Open the Project
+Open the cloned project in Visual Studio 2022.
+
+## Restore Dependencies
+Use the built-in NuGet Package Manager to restore any missing dependencies.
+
+## Build the Solution
+Compile the solution to ensure everything is set up correctly.
+
+## Run the API
+Start the Web API to begin serving requests.
 
 # Features
 The project includes several key features, demonstrating the capabilities of a modern SPA in talent management:
