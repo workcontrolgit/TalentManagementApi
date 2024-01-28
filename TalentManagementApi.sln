@@ -5,19 +5,24 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{57BA5508-D7E8-44A5-9385-0B0FC2F46F34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentManagementApi.WebApi", "TalentManagementApi.WebApi\TalentManagementApi.WebApi.csproj", "{EE4FA804-D46E-494B-BC03-82678DA2EB7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentManagementApi.WebApi", "TalentManagementApi.WebApi\TalentManagementApi.WebApi.csproj", "{EE4FA804-D46E-494B-BC03-82678DA2EB7E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DD87076A-6006-4422-B4BC-F51D11664321}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentManagementApi.Application", "TalentManagementApi.Application\TalentManagementApi.Application.csproj", "{9CD4E823-7541-4C48-9C22-0F7E37E017D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentManagementApi.Application", "TalentManagementApi.Application\TalentManagementApi.Application.csproj", "{9CD4E823-7541-4C48-9C22-0F7E37E017D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentManagementApi.Domain", "TalentManagementApi.Domain\TalentManagementApi.Domain.csproj", "{6AF7A874-47D2-4657-BC9E-F5A9D585979A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentManagementApi.Domain", "TalentManagementApi.Domain\TalentManagementApi.Domain.csproj", "{6AF7A874-47D2-4657-BC9E-F5A9D585979A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{AB75EAB5-9625-4A05-81A4-A5D5E845969C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentManagementApi.Infrastructure.Persistence", "TalentManagementApi.Infrastructure.Persistence\TalentManagementApi.Infrastructure.Persistence.csproj", "{A00158C5-A02B-4687-9635-F016CA91A3C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentManagementApi.Infrastructure.Persistence", "TalentManagementApi.Infrastructure.Persistence\TalentManagementApi.Infrastructure.Persistence.csproj", "{A00158C5-A02B-4687-9635-F016CA91A3C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentManagementApi.Infrastructure.Shared", "TalentManagementApi.Infrastructure.Shared\TalentManagementApi.Infrastructure.Shared.csproj", "{CABCEF2A-8965-4291-ABAB-9F8BF6CEBBE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentManagementApi.Infrastructure.Shared", "TalentManagementApi.Infrastructure.Shared\TalentManagementApi.Infrastructure.Shared.csproj", "{CABCEF2A-8965-4291-ABAB-9F8BF6CEBBE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E8E237B0-D7D1-411B-A2E6-793EE3373B89}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
