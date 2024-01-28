@@ -14,6 +14,8 @@ namespace TalentManagementApi.Application.Features.Positions.Commands.UpdatePosi
         public string PositionTitle { get; set; }
         public string PositionNumber { get; set; }
         public string PositionDescription { get; set; }
+        public Guid DepartmentId { get; set; }
+        public Guid SalaryRangeId { get; set; }
 
         public class UpdatePositionCommandHandler : IRequestHandler<UpdatePositionCommand, Response<Guid>>
         {
