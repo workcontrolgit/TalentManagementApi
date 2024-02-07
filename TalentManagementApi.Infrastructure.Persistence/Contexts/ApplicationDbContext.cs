@@ -50,10 +50,8 @@ namespace TalentManagementApi.Infrastructure.Persistence.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Configure the tables
-            //modelBuilder.ApplyConfiguration(new PositionConfiguration());
 
-            // Human resources
+            // Configuring data model using EF Core Fluent
             ApplicationDbContextHelpers.DatabaseModelCreating(modelBuilder);
         }
 
