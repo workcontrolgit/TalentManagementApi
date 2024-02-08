@@ -1,11 +1,12 @@
-﻿using TalentManagementApi.Domain.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TalentManagementApi.Domain.Entities;
 
 namespace TalentManagementApi.Application.Interfaces
 {
     public interface IMockService
     {
-        List<Position> GetPositions(int rowCount);
+        //List<Position> GetPositions(int rowCount);
+        List<Position> GetPositions(int rowCount, IEnumerable<Department> departments, IEnumerable<SalaryRange> salaryRanges);
 
         List<Employee> GetEmployees(int rowCount);
 
