@@ -38,7 +38,6 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
 
         public async Task<bool> SeedDataAsync(int rowCount, IEnumerable<Department> departments, IEnumerable<SalaryRange> salaryRanges)
         {
-            // await this.BulkInsertAsync(_mockData.GetPositions(rowCount));
             await this.BulkInsertAsync(_mockData.GetPositions(rowCount, departments, salaryRanges));
 
             return true;
