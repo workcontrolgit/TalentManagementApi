@@ -17,7 +17,7 @@ namespace TalentManagementApi.WebApi.Controllers.v1
         [HttpGet]
         public async Task<IActionResult> CreateChatCompletionAsync([FromQuery] string prompt)
         {
-            return Ok(await Mediator.Send(new GetPromptsQuery { Prompt = prompt }));
+            return Ok(await Mediator.Send(new GetPromptQuery { Prompt = prompt }));
         }
     }
 }
