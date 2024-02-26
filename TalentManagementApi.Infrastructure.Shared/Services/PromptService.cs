@@ -23,11 +23,6 @@ namespace PromptAPI.Services
             // https://github.com/OkGoDoIt/OpenAI-API-dotnet/blob/master/README.md
             OpenAIAPI api = new OpenAIAPI(apiKey); // shorthand
 
-            var chat = api.Chat.CreateConversation();
-
-            chat.Model = Model.ChatGPTTurbo;
-            chat.RequestParameters.Temperature = 0;
-            // for example
             var result = await api.Chat.CreateChatCompletionAsync(new ChatRequest()
             {
                 Model = Model.ChatGPTTurbo,
@@ -38,7 +33,7 @@ namespace PromptAPI.Services
                 }
             });
 
-            var reply = result.Choices[0].Message.Content;
+            var reply = result.Choices[0].Message.TextContent;
 
             return reply;
         }
