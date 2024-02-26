@@ -14,8 +14,8 @@ namespace TalentManagementApi.WebApi.Controllers.v1
             _promptService = promptService;
         }
 
-        [HttpGet(Name = "CreateChatCompletionAsync")]
-        public async Task<IActionResult> TriggerOpenAI([FromQuery] string prompt)
+        [HttpGet]
+        public async Task<IActionResult> CreateChatCompletionAsync([FromQuery] string prompt)
         {
             return Ok(await Mediator.Send(new GetPromptsQuery { Prompt = prompt }));
         }
