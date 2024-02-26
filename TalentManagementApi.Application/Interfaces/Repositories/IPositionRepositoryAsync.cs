@@ -18,7 +18,7 @@ namespace TalentManagementApi.Application.Interfaces.Repositories
     /// Task indicating the completion of seeding.
     /// </returns>
     /// <param name="requestParameters">Parameters for the query.</param>
-    /// <param name="data">Data to be returned.</param>
+    /// <param name="data">Completion to be returned.</param>
     /// <param name="recordsCount">Number of records.</param>
     /// <returns>
     /// Task containing the paged response.

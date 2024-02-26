@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
+using OpenAI_API;
+using OpenAI_API.Chat;
+using OpenAI_API.Models;
 using System.Threading.Tasks;
-using TalentManagementApi.Application.DTOs;
 using TalentManagementApi.Application.Interfaces;
 
 namespace PromptAPI.Services
@@ -20,41 +16,31 @@ namespace PromptAPI.Services
             _configuration = configuration;
         }
 
-        public async Task<string> TriggerOpenAI(string prompt)
+        public async Task<string> CreateChatCompletionAsync(string prompt)
         {
             var apiKey = _configuration.GetValue<string>("OpenAISetting:APIKey");
-            var baseUrl = _configuration.GetValue<string>("OpenAISetting:BaseUrl");
 
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            // https://github.com/OkGoDoIt/OpenAI-API-dotnet/blob/master/README.md
+            OpenAIAPI api = new OpenAIAPI(apiKey); // shorthand
 
-            var request = new OpenAIRequestDto
+            var chat = api.Chat.CreateConversation();
+
+            chat.Model = Model.ChatGPTTurbo;
+            chat.RequestParameters.Temperature = 0;
+            // for example
+            var result = await api.Chat.CreateChatCompletionAsync(new ChatRequest()
             {
-                //Model = "gpt-3.5-turbo",
-                Model = "gpt-4",
-                Messages = new List<OpenAIMessageRequestDto>{
-                    new OpenAIMessageRequestDto
-                    {
-                        Role = "user",
-                        Content = prompt
-                    }
-                },
+                Model = Model.ChatGPTTurbo,
                 Temperature = 0.7f,
-                MaxTokens = 100
-            };
-            var json = JsonSerializer.Serialize(request);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(baseUrl, content);
-            var resjson = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorResponse = JsonSerializer.Deserialize<OpenAIErrorResponseDto>(resjson);
-                throw new Exception(errorResponse.Error.Message);
-            }
-            var data = JsonSerializer.Deserialize<OpenAIResponseDto>(resjson);
-            var responseText = data.choices[0].message.content;
+                MaxTokens = 100,
+                Messages = new ChatMessage[] {
+            new ChatMessage(ChatMessageRole.User, prompt)
+                }
+            });
 
-            return responseText;
+            var reply = result.Choices[0].Message.Content;
+
+            return reply;
         }
     }
 }

@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using TalentManagementApi.Application.Features.Prompts.Queries.GetPrompts;
 using TalentManagementApi.Application.Interfaces;
 
 namespace TalentManagementApi.WebApi.Controllers.v1
 {
-    //[ApiController]
-    //[Route("[controller]")]
     public class PromptController : BaseApiController
     {
         private readonly IPromptService _promptService;
@@ -15,11 +14,10 @@ namespace TalentManagementApi.WebApi.Controllers.v1
             _promptService = promptService;
         }
 
-        [HttpGet(Name = "TriggerOpenAI")]
-        public async Task<IActionResult> TriggerOpenAI([FromQuery] string input)
+        [HttpGet(Name = "CreateChatCompletionAsync")]
+        public async Task<IActionResult> TriggerOpenAI([FromQuery] string prompt)
         {
-            var response = await _promptService.TriggerOpenAI(input);
-            return Ok(response);
+            return Ok(await Mediator.Send(new GetPromptsQuery { Prompt = prompt }));
         }
     }
 }
