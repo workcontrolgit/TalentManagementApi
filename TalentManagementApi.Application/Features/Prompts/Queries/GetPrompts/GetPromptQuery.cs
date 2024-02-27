@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using TalentManagementApi.Application.Interfaces;
-using TalentManagementApi.Application.Parameters;
 using TalentManagementApi.Application.Wrappers;
 
 namespace TalentManagementApi.Application.Features.Prompts.Queries.GetPrompts
@@ -10,7 +9,7 @@ namespace TalentManagementApi.Application.Features.Prompts.Queries.GetPrompts
     /// <summary>
     /// GetPromptQuery - handles media IRequest BaseRequestParameter
     /// </summary>
-    public class GetPromptQuery : ListParameter, IRequest<Response<GetPromptViewModel>>
+    public class GetPromptQuery : IRequest<Response<GetPromptViewModel>>
     {
         public string Prompt { get; set; }
 
