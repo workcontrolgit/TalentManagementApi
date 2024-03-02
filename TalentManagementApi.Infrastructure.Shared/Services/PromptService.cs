@@ -5,7 +5,7 @@ using OpenAI_API.Models;
 using System.Threading.Tasks;
 using TalentManagementApi.Application.Interfaces;
 
-namespace PromptAPI.Services
+namespace TalentManagementApi.Infrastructure.Shared.Services
 {
     public class PromptService : IPromptService
     {

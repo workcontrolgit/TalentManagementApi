@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PromptAPI.Services;
 using TalentManagementApi.Application.Interfaces;
 using TalentManagementApi.Domain.Settings;
 using TalentManagementApi.Infrastructure.Shared.Services;
