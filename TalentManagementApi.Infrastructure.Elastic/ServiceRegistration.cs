@@ -4,7 +4,7 @@ using Nest;
 using System;
 using TalentManagementApi.Application.Interfaces.Repositories;
 using TalentManagementApi.Domain.Entities;
-using TalentManagementApi.Infrastructure.Persistence.Repositories;
+using TalentManagementApi.Infrastructure.Search.Repositories;
 
 namespace TalentManagementApi.Infrastructure.Elastic
 {

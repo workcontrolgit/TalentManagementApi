@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Nest;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Nest;
 using TalentManagementApi.Application.Interfaces.Repositories;
-using TalentManagementApi.Domain.Entities;
 
-namespace TalentManagementApi.Infrastructure.Persistence.Repositories
+namespace TalentManagementApi.Infrastructure.Search.Repositories
 {
     public class GenericDocumentAsync<T> : IGenericDocumentAsync<T> where T : class
     {
@@ -26,7 +25,6 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
             return await _elasticClient.UpdateAsync<T>(entity, u => u.Doc(entity));
         }
 
-
         public async Task<DeleteResponse> DeleteAsync(Guid id)
         {
             return await _elasticClient.DeleteAsync<T>(id);
@@ -38,7 +36,6 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
                 .Query(q => q
                 .MatchAll()
                 ));
-
         }
 
         public async Task<GetResponse<T>> GetByIdAsync(Guid id)
@@ -46,11 +43,9 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
             return await _elasticClient.GetAsync<T>(id);
         }
 
-
         public async Task<BulkResponse> BulkAsync(IEnumerable<T> entities)
         {
             return await _elasticClient.IndexManyAsync(entities);
-
         }
 
         public async Task<ISearchResponse<T>> SearchAsync(string q)
@@ -62,8 +57,6 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
                         .Fuzziness(Fuzziness.Auto)
                     )
                 ));
-
         }
-
     }
 }

@@ -2,7 +2,7 @@
 using TalentManagementApi.Application.Interfaces.Repositories;
 using TalentManagementApi.Domain.Entities;
 
-namespace TalentManagementApi.Infrastructure.Persistence.Repositories
+namespace TalentManagementApi.Infrastructure.Search.Repositories
 {
     public class EmployeeDocumentAsync : GenericDocumentAsync<Employee>, IEmployeeDocumentAsync
     {

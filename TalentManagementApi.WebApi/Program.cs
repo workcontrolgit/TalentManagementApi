@@ -26,6 +26,9 @@ try
     builder.Services.AddApplicationLayer();
     builder.Services.AddPersistenceInfrastructure(builder.Configuration);
     builder.Services.AddSharedInfrastructure(builder.Configuration);
+    // Elastic Search
+    builder.Services.AddElasticsearch(builder.Configuration);
+    // Swagger
     builder.Services.AddSwaggerExtension();
     builder.Services.AddControllersExtension();
     // CORS
