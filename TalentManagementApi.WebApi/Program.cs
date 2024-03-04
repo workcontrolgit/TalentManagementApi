@@ -31,19 +31,24 @@ try
     // Swagger
     builder.Services.AddSwaggerExtension();
     builder.Services.AddControllersExtension();
-    // CORS
+    // Add CORS services to the service container
     builder.Services.AddCorsExtension();
+    // Add health checks services to the service container
     builder.Services.AddHealthChecks();
-    //API Security
+    // Add JWT authentication service to the service collection
     builder.Services.AddJWTAuthentication(builder.Configuration);
+    // Add authorization policies to the service collection
     builder.Services.AddAuthorizationPolicies(builder.Configuration);
-    // API version
+    // Add API versioning to the service collection
     builder.Services.AddApiVersioningExtension();
-    // API explorer
+    // Add MVC Core services to the service container
     builder.Services.AddMvcCore()
+        // Add API Explorer services to the MVC Core
         .AddApiExplorer();
-    // API explorer version
+    // Add Versioned API Explorer Extension services to the service container
     builder.Services.AddVersionedApiExplorerExtension();
+
+    // Building the app using the builder
     var app = builder.Build();
 
     Log.Information("Application startup middleware registration");
