@@ -4,13 +4,12 @@ using Nest;
 using System;
 using TalentManagementApi.Application.Interfaces.Repositories;
 using TalentManagementApi.Domain.Entities;
-using TalentManagementApi.Infrastructure.Search.Repositories;
 
-namespace TalentManagementApi.Infrastructure.Elastic
+namespace TalentManagementApi.Infrastructure.Search
 {
     public static class ServiceRegistration
     {
-        public static void AddElasticsearch(this IServiceCollection services, IConfiguration configuration)
+        public static void AddElasticSearch(this IServiceCollection services, IConfiguration configuration)
         {
             var settings = new ConnectionSettings(new Uri(configuration["ElasticsearchSettings:uri"]));
 
@@ -42,7 +41,7 @@ namespace TalentManagementApi.Infrastructure.Elastic
                 .EnableApiVersioningHeader()
                 .EnableDebugMode()
                 .DisableDirectStreaming()
-                .DefaultMappingFor<Employee>(m => m.IndexName("customers"))
+                .DefaultMappingFor<Employee>(m => m.IndexName("employees"))
                 .DefaultMappingFor<Position>(m => m.IndexName("positions"));
             var client = new ElasticClient(settings);
 
@@ -50,9 +49,17 @@ namespace TalentManagementApi.Infrastructure.Elastic
             // See https://www.elastic.co/guide/en/elasticsearch/client/net-api/current/lifetimes.html
             services.AddSingleton<IElasticClient>(client);
 
-            services.AddTransient(typeof(IGenericDocumentAsync<>), typeof(GenericDocumentAsync<>));
+            //services.AddTransient(typeof(IGenericSearchAsync<>), typeof(GenericSearchAsync<>));
 
-            services.AddTransient<IEmployeeDocumentAsync, EmployeeDocumentAsync>();
+            //services.AddTransient<IEmployeeSearchAsync, EmployeeSearchAsync>();
+
+            // * use Scutor to register generic repository interface for DI and specifying the lifetime of dependencies
+            services.Scan(selector => selector
+                .FromCallingAssembly()
+                .AddClasses(classSelector => classSelector.AssignableTo(typeof(IGenericSearchAsync<>)))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime()
+                );
         }
     }
 }

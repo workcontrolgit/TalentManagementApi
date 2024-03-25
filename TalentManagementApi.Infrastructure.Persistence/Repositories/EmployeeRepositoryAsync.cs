@@ -19,6 +19,8 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
         private readonly DbSet<Employee> _repository;
         private readonly IDataShapeHelper<Employee> _dataShaper;
 
+        private readonly IEmployeeSearchAsync _employeeSearch;
+
         /// <summary>
         /// Constructor for EmployeeRepositoryAsync class.
         /// </summary>
@@ -28,10 +30,11 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
         ///
         /// </returns>
         public EmployeeRepositoryAsync(ApplicationDbContext dbContext,
-            IDataShapeHelper<Employee> dataShaper) : base(dbContext)
+            IDataShapeHelper<Employee> dataShaper, IEmployeeSearchAsync employeeSearch) : base(dbContext)
         {
             _repository = dbContext.Set<Employee>();
             _dataShaper = dataShaper;
+            _employeeSearch = employeeSearch;
         }
 
         /// <summary>
@@ -94,6 +97,9 @@ namespace TalentManagementApi.Infrastructure.Persistence.Repositories
 
             // retrieve data to list
             var resultData = await result.ToListAsync();
+
+            // elastic search bulk innsert
+            await _employeeSearch.BulkAsync(resultData);
 
             // shape data
             var shapeData = _dataShaper.ShapeData(resultData, fields);

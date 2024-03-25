@@ -14,7 +14,7 @@ namespace TalentManagementApi.Application.Features.SalaryRanges.Queries.GetSalar
     /// BaseRequestParameter - contains paging parameters
     /// To add filter/search parameters, add search properties to the body of this class
     /// </summary>
-    public class GetSalaryRangesQuery : ListParameter, IRequest<IEnumerable<GetSalaryRangesViewModel>>
+    public class GetSalaryRangesQuery : OrderByParameter, IRequest<IEnumerable<GetSalaryRangesViewModel>>
     {
     }
 

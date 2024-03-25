@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TalentManagementApi.Application.Interfaces.Repositories
 {
-    public interface IGenericDocumentAsync<T> where T : class
+    public interface IGenericSearchAsync<T> where T : class
     {
         Task<ISearchResponse<T>> GetAllAsync();
 

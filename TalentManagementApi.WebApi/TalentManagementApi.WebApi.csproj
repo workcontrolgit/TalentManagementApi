@@ -8,6 +8,8 @@
     <RepositoryType>Public</RepositoryType>
     <PackageProjectUrl>https://github.com/workcontrolgit</PackageProjectUrl>
     <Version>1.0.0</Version>
+    <UserSecretsId>42e9cdae-d4b5-48a3-8821-e54e79f3492c</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -37,6 +39,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageReference Include="Serilog.Expressions" Version="4.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
@@ -44,6 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TalentManagementApi.Infrastructure.Elastic\TalentManagementApi.Infrastructure.Search.csproj" />
     <ProjectReference Include="..\TalentManagementAPI.Infrastructure.Persistence\TalentManagementApi.Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\TalentManagementAPI.Infrastructure.Shared\TalentManagementApi.Infrastructure.Shared.csproj" />
   </ItemGroup>

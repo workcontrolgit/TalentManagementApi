@@ -8,6 +8,7 @@ using TalentManagementApi.Application;
 using TalentManagementApi.Infrastructure.Persistence;
 using TalentManagementApi.Infrastructure.Persistence.Contexts;
 using TalentManagementApi.Infrastructure.Persistence.SeedData;
+using TalentManagementApi.Infrastructure.Search;
 using TalentManagementApi.Infrastructure.Shared;
 using TalentManagementApi.WebApi.Extensions;
 
@@ -27,7 +28,8 @@ try
     builder.Services.AddPersistenceInfrastructure(builder.Configuration);
     builder.Services.AddSharedInfrastructure(builder.Configuration);
     // Elastic Search
-    builder.Services.AddElasticsearch(builder.Configuration);
+    //builder.Services.AddElasticSearch(builder.Configuration);
+    builder.Services.AddElasticSearch(builder.Configuration);
     // Swagger
     builder.Services.AddSwaggerExtension();
     builder.Services.AddControllersExtension();

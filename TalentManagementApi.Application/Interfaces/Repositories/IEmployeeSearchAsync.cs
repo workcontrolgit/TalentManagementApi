@@ -19,7 +19,7 @@ namespace TalentManagementApi.Application.Interfaces.Repositories
     /// <returns>
     /// Task containing the paged response.
     /// </returns>
-    public interface IEmployeeDocumentAsync : IGenericDocumentAsync<Employee>
+    public interface IEmployeeSearchAsync : IGenericSearchAsync<Employee>
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TalentManagementApi.Application.Parameters
 {
-    public class ListParameter
+    public class OrderByParameter
     {
         public virtual string OrderBy { get; set; }
     }

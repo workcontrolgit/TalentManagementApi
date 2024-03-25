@@ -4,9 +4,9 @@ using TalentManagementApi.Domain.Entities;
 
 namespace TalentManagementApi.Infrastructure.Search.Repositories
 {
-    public class EmployeeDocumentAsync : GenericDocumentAsync<Employee>, IEmployeeDocumentAsync
+    public class EmployeeSearchAsync : GenericSearchAsync<Employee>, IEmployeeSearchAsync
     {
-        public EmployeeDocumentAsync(IElasticClient elasticClient) : base(elasticClient)
+        public EmployeeSearchAsync(IElasticClient elasticClient) : base(elasticClient)
         {
         }
     }

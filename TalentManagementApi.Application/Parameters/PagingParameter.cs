@@ -1,6 +1,6 @@
 ﻿namespace TalentManagementApi.Application.Parameters
 {
-    public class PagingParameter : ListParameter
+    public class PagingParameter : OrderByParameter
     {
         private const int maxPageSize = 200;
         public int PageNumber { get; set; } = 1;

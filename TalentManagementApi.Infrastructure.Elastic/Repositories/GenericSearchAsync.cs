@@ -6,11 +6,11 @@ using TalentManagementApi.Application.Interfaces.Repositories;
 
 namespace TalentManagementApi.Infrastructure.Search.Repositories
 {
-    public class GenericDocumentAsync<T> : IGenericDocumentAsync<T> where T : class
+    public class GenericSearchAsync<T> : IGenericSearchAsync<T> where T : class
     {
         private readonly IElasticClient _elasticClient;
 
-        public GenericDocumentAsync(IElasticClient elasticClient)
+        public GenericSearchAsync(IElasticClient elasticClient)
         {
             _elasticClient = elasticClient;
         }
